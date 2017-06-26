@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Budget API Test</title>
+<body>
+  <input type="button" id="getBudget" onclick="getBudget()" value="Get Current Budget">
+  <pre id="theBudget">
+  <input type="button" id="getCost" onclick="getCost()" value="Get Cost">
+  <pre id="theCost">
+</body>
+<script>
+function getBudget() {
+  navigator.budget.getBudget().then(function(b) {console.log("budget state:" + b.length); for (bs of b) {budgetInfo = "Budget is " + bs.budgetAt.toString() + " at " + new Date(bs.time).toString();console.log(budgetInfo); document.getElementById("theBudget").innerHTML += budgetInfo + "\n" }});
+}
+function getCost() {
+  navigator.budget.getCost("push-api").then(function(b) {console.log("budget state:" + b.length); for (bs of b) {budgetInfo = "Budget is " + bs.budgetAt.toString() + " at " + new Date(bs.time).toString();console.log(budgetInfo); document.getElementById("theBudget").innerHTML += budgetInfo + "\n" }});
+}
+</script>
