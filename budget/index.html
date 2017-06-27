@@ -26,6 +26,9 @@ function pushMessaging() {
           const pushButton = document.querySelector('#pushMessaging');
           console.log('User is subscribed: ' + JSON.stringify(subscription));
           pushButton.value = "Send Push Notification";
+          navigator.serviceWorker.addEventListener("message", function(event) {
+              document.getElementById("swBudget").innerHTML += event.data + "\n"; 
+          });
     })
     .catch(function(err) {
           console.log('Failed to subscribe the user: ', err);
@@ -54,8 +57,8 @@ if (navigator.serviceWorker && navigator.serviceWorker.register) {
           console.log("SW reg failed: " + error.message);
       });
     } else {
-      navigator.serviceWorker.addEventListener("message", function(event) {
-          document.getElementById("swBudget").innerHTML += event.data + "\n"; 
+      navigator.serviceWorker.getRegistration("").then(function(reg) {
+          swRegistration = reg;
       });
     }
 }
