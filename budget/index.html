@@ -20,7 +20,6 @@ function pushMessaging() {
   if (swRegistration) {
     swRegistration.pushManager.subscribe({
           userVisibleOnly: true,
-          applicationServerKey: applicationServerKey
     })
     .then(function(subscription) {
           const pushButton = document.querySelector('#pushMessaging');
