@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 <title>Budget API Test</title>
 <body>
+  <input type="button" id="pushMessaging" onclick="pushMessaging()" value="Enable Push Notification"></input>
   <input type="button" id="getDocBudget" onclick="getDocBudget()" value="Get Current Budget in doc"></input>
   <h2>Budget from document: </h2>
   <pre id="docBudget"></pre>
@@ -12,6 +13,26 @@
   <pre id="theCost"></pre>
 </body>
 <script>
+
+var swRegistration=null;
+
+function pushMessaging() {
+  if (swRegistration) {
+    swRegistration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: applicationServerKey
+    })
+    .then(function(subscription) {
+          const pushButton = document.querySelector('#pushMessaging');
+          console.log('User is subscribed: ' + JSON.stringify(subscription));
+          pushButton.value = "Send Push Notification";
+    })
+    .catch(function(err) {
+          console.log('Failed to subscribe the user: ', err);
+    });
+  }
+}
+
 function getDocBudget() {
   navigator.budget.getBudget().then(function(b) {console.log("budget state:" + b.length); for (bs of b) {budgetInfo = "Budget is " + bs.budgetAt.toString() + " at " + new Date(bs.time).toString();console.log(budgetInfo); document.getElementById("docBudget").innerHTML += budgetInfo + "\n" }});
 }
