@@ -47,9 +47,12 @@ function getCost() {
 if (navigator.serviceWorker && navigator.serviceWorker.register) {
     if (!navigator.serviceWorker.controller) {
       navigator.serviceWorker.register("budget_sw.js")
-        .catch(function(error) {
-            console.log("SW reg failed: " + error.message);
-        });
+      .then(function(reg) {
+          swRegistration = reg;
+      })
+      .catch(function(error) {
+          console.log("SW reg failed: " + error.message);
+      });
     } else {
       navigator.serviceWorker.addEventListener("message", function(event) {
           document.getElementById("swBudget").innerHTML += event.data + "\n"; 
