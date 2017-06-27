@@ -20,6 +20,7 @@ function pushMessaging() {
   if (swRegistration) {
     swRegistration.pushManager.subscribe({
           userVisibleOnly: true,
+          applicationServerKey: 'BFkVrdLMpKewgEy0HOlltHbatCcm2-vE3qNAuirFtu2kxKw7wMhyA82Quu6UCkERh5d8Ti23ox-DtH9ds7uEJAE'
     })
     .then(function(subscription) {
           const pushButton = document.querySelector('#pushMessaging');
