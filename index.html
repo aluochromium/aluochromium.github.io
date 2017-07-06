@@ -1,1 +1,42 @@
-Hello World
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Budget API Test</title>
+<body>
+  <input type="button" id="getBudget" onclick="getBudget()" value="Get Current Budget">
+  <input type="button" id="spendBudget" onclick="spendBudget()" value="Spend Budget">
+  <h3 id="spendSuccess">Reserve Status</h3>
+  <pre id="theBudget">
+</body>
+<script>
+
+function showBudget(b) {
+    console.log("budget state:" + b.length);
+
+    budgetInfo = "Budget is \n";
+    for (bs of b) {
+      budgetInfo += bs.budgetAt.toString() + " at " + new Date(bs.time).toString() + "\n";
+    }
+    console.log(budgetInfo);
+    document.getElementById("theBudget").innerHTML += budgetInfo + ".\n";
+}
+
+function getBudget() {
+  Notification.requestPermission().then(function(result) {
+    navigator.budget.getBudget()
+      .then(showBudget);
+  });
+}
+
+function spendBudget() {
+    navigator.budget.reserve("silent-push")
+      .then(function(success) {
+        if (success) {
+          document.getElementById("spendSuccess").innerHTML = "Reserve Success";
+        } else {
+          document.getElementById("spendSuccess").innerHTML = "Reserve Failure";
+        }
+        return navigator.budget.getBudget();
+      })
+      .then(showBudget);
+}
+</script>
